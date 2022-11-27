@@ -1,1 +1,1 @@
-# A Simple Review of Deep and Shallow Anomaly Detection
+A Simple Review of Deep and Shallow Anomaly Detection
