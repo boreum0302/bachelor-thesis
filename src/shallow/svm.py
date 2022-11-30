@@ -15,15 +15,14 @@ def hyperparameter_optimize(X_train, y_train, X_valid, y_valid):
     for C_candidate, gamma_candidate in itertools.product([2**n for n in range(-5, 16, 2)], [2**n for n in range(-15, 4, 2)]):
         
         model = SVC(
-            kernel='rbf', C=C_candidate, gamma=gamma_candidate,
-            probability=True
+            kernel='rbf', C=C_candidate, gamma=gamma_candidate
         )
 
         model.fit(X_train, y_train.ravel())
 
         auc = roc_auc_score(
             y_true=y_valid,
-            y_score=model.predict_proba(X_valid)[:, 1]
+            y_score=model.decision_function(X_valid)
         )
         
         if auc > max_auc:
@@ -61,15 +60,14 @@ def save_results(dataset, path, seed=0):
 
             # evaluate
             model = SVC(
-                kernel='rbf', C=C, gamma=gamma,
-                probability=True
+                kernel='rbf', C=C, gamma=gamma
             )
             
             model.fit(X_train, y_train.ravel())
             
             auc = roc_auc_score(
                 y_true=y_test,
-                y_score=model.predict_proba(X_test)[:, 1]
+                y_score=model.decision_function(X_test)
             )
             
             # save
